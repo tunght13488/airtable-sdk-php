@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleRetry\GuzzleRetryMiddleware;
 
 /**
  * Class AirtableClient
@@ -48,6 +49,7 @@ class AirtableClient
         $stack = new HandlerStack(new CurlHandler());
         $stack->push(Middleware::mapRequest(new BearerTokenMiddleware($apiKey)), BearerTokenMiddleware::class);
         $stack->push(Middleware::httpErrors());
+        $stack->push(GuzzleRetryMiddleware::factory());
 
         return $stack;
     }
