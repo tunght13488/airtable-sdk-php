@@ -47,6 +47,7 @@ class AirtableClient
     {
         $stack = new HandlerStack(new CurlHandler());
         $stack->push(Middleware::mapRequest(new BearerTokenMiddleware($apiKey)), BearerTokenMiddleware::class);
+        $stack->push(Middleware::httpErrors());
 
         return $stack;
     }
